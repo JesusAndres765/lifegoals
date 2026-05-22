@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { MetaServiceService } from '../services/meta-service';
 import { Meta } from '../models/meta.model';
 
@@ -12,9 +12,13 @@ export class Home {
   metas: Meta[] = [];
   newMeta: string = '';
 
-  constructor(private metaService: MetaServiceService) {
+  constructor(
+    private metaService: MetaServiceService,
+    private cdr: ChangeDetectorRef
+  ) {
     this.metaService.getMetas().subscribe(data => {
       this.metas = data;
+      this.cdr.detectChanges();
     });
   }
 
