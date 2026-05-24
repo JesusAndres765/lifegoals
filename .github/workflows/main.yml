@@ -30,10 +30,14 @@ jobs:
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
       - name: Build the custom Docker image
-        run: docker build -t ${{secrets.DOCKER_USER}}/lifegoals:${{ github.sha }} .
+        run: |
+          docker build -t ${{secrets.DOCKER_USER}}/lifegoals:${{ github.sha }} .
+          docker tag ${{secrets.DOCKER_USER}}/lifegoals:${{ github.sha }} ${{secrets.DOCKER_USER}}/lifegoals:latest
 
       - name: Docker Push
-        run: docker push ${{secrets.DOCKER_USER}}/lifegoals:${{ github.sha }}
+        run: |
+          docker push ${{secrets.DOCKER_USER}}/lifegoals:${{ github.sha }}
+          docker push ${{secrets.DOCKER_USER}}/lifegoals:latest
 
       - name: Trigger Render Deploy
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
