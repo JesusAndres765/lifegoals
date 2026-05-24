@@ -39,6 +39,4 @@ jobs:
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
 
       - name: Verify htaccess and apache config
-        run: |
-          docker run --rm ${{secrets.DOCKER_USER}}/lifegoals:${{ github.sha }} \
-          sh -c "grep -A10 'htdocs' /usr/local/apache2/conf/httpd.conf"l/apache2/conf/httpd.conf | grep AllowOverride"
+        run: docker run --rm ${{secrets.DOCKER_USER}}/lifegoals:${{ github.sha }} grep -A10 htdocs /usr/local/apache2/conf/httpd.conf
